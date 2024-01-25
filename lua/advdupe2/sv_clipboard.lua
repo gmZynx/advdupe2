@@ -794,7 +794,7 @@ local function reportclass(ply, class)
 end
 
 local function reportmodel(ply, model)
-	net.Start("AdvDupe2_ReportClass")
+	net.Start("AdvDupe2_ReportModel")
 	net.WriteString(model)
 	net.Send(ply)
 end
@@ -903,6 +903,7 @@ local function IsAllowed(Player, Class, EntityClass)
 end
 
 local function CreateEntityFromTable(EntTable, Player)
+	hook.Run("AdvDupe2_PreCreateEntity", EntTable, Player)
 
 	local EntityClass = duplicator.FindEntityClass(EntTable.Class)
 	if not IsAllowed(Player, EntTable.Class, EntityClass) then
