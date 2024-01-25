@@ -1014,8 +1014,10 @@ local function CreateEntityFromTable(EntTable, Player)
 
 			hook.Remove( "OnEntityCreated", "AdvDupe2_GetLastEntitiesCreated" )
 
-			if hack and status then
-				gamemode.Call( "PlayerSpawnedSENT", Player, valid )
+			if hack and status and valid then
+				if ( valid ~= true ) then
+					gamemode.Call( "PlayerSpawnedSENT", Player, valid )
+				end
 			end
 		else
 			print("Advanced Duplicator 2: ENTITY CLASS IS BLACKLISTED, CLASS NAME: " .. EntTable.Class)
