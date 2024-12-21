@@ -389,6 +389,8 @@ local function getInfo(str)
 	if info.check ~= "\r\n\t\n" then
 		if info.check == "\10\9\10" then
 			error("Detected AD2 file corrupted in file transfer (newlines homogenized)(when using FTP, transfer AD2 files in image/binary mode, not ASCII/text mode)!")
+		elseif info.check ~= nil then
+			error("Detected AD2 file corrupted by newline replacements (copy/pasting the data in various editors can cause this!)")
 		else
 			error("Attempt to read AD2 file with malformed info block!")
 		end
@@ -523,6 +525,8 @@ if CLIENT then
 		if not arg[1] then print("Need AdvDupe2 file name argument!") return end
 		local readFileName = "advdupe2/"..arg[1]
 		local writeFileName = "advdupe2/"..string.StripExtension(arg[1])..".json"
+
+		writeFileName = AdvDupe2.SanitizeFilename(writeFileName)
 
 		local readFile = file.Open(readFileName, "rb", "DATA")
 		if not readFile then print("File could not be read or found! ("..readFileName..")") return end
